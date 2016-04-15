@@ -3,6 +3,7 @@ package teammeatweek14;
 import javax.inject.Inject;
 
 import org.springframework.social.connect.ConnectionRepository;
+
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.PagedList;
 import org.springframework.social.facebook.api.Post;
@@ -30,21 +31,18 @@ public class FaceTwitController {
 
     @RequestMapping(method=RequestMethod.GET)
     public String helloFaceTwit(Model model) {
-        if (connectionRepository.findPrimaryConnection(Facebook.class) == null) {
-            return "redirect:/connect/facebook";
-        }
-        if (connectionRepository.findPrimaryConnection(Twitter.class) == null) {
-        	return "redirect:/connect/twitter";
+        if (connectionRepository.findPrimaryConnection(Facebook.class) != null) {
+            model.addAttribute("facebookProfile", facebook.userOperations().getUserProfile());
+            PagedList<Post> feed = facebook.feedOperations().getFeed();
+            model.addAttribute("feed", feed);
         }
 
-        model.addAttribute("facebookProfile", facebook.userOperations().getUserProfile());
-        PagedList<Post> feed = facebook.feedOperations().getFeed();
-        model.addAttribute("feed", feed);
-        
-        model.addAttribute(twitter.userOperations().getUserProfile());
-        CursoredList<TwitterProfile> friends = twitter.friendOperations().getFriends();
-        model.addAttribute("friends", friends);
-        
-        return "hello";
+        if (connectionRepository.findPrimaryConnection(Twitter.class) != null) {
+            model.addAttribute(twitter.userOperations().getUserProfile());
+            CursoredList<TwitterProfile> friends = twitter.friendOperations().getFriends();
+            model.addAttribute("friends", friends);
+        }
+
+        return "homePage";
     }
 }
