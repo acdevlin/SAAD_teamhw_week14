@@ -1,11 +1,23 @@
 <html>
 	<head>
-		<title>Hello Facebook</title>
+		<title>Hello FaceTwit</title>
 	</head>
+	<h1>TheFaceTwit</h1>
 	<body>
-		<h3>Hello, <span th:text="${facebookProfile.name}">Some User</span>!</h3>
+		<h3>Hello from Twitter, <span th:text="${twitterProfile.name}">Some User</span>!</h3>
 		
-		<h4>Here is your feed:</h4>
+		<h4>These are your Twitter friends:</h4>
+		
+		<ul>
+			<li th:each="friend:${friends}" th:text="${friend.name}">Friend</li>
+		</ul>
+	</body>
+	<br/>
+	<br/>
+	<body>
+		<h3>Hello from Facebook, <span th:text="${facebookProfile.name}">Some User</span>!</h3>
+		
+		<h4>Here is your Facebook feed:</h4>
 		
 		<div th:each="post:${feed}">
 			<b th:text="${post.from.name}">from</b> wrote:
