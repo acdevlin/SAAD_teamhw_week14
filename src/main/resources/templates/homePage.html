@@ -38,4 +38,18 @@
 			</div>
 		</body>
 	</div>
+	<div th:switch="${linkedinProfile}">
+		<body th:case="null">
+			<h3>LinkedIn Is Not Connected</h3>
+			Click <a href="/connect/linkedin">here</a> to connect to your LinkedIn account.
+		</body>
+		<body th:case="*">
+			<h3>Hello from LinkedIn, <span th:text="${linkedinProfile.firstName} + ' ' + ${linkedinProfile.lastName}">Some User</span>!</h3>
+			<ul>
+				<li>Email Address: <span th:text="${linkedinProfile.emailAddress}">email</span></li>
+				<li>Industry: <span th:text="${linkedinProfile.industry}">industry</span></li>
+				<li>Summary: <span th:text="${linkedinProfile.summary}">industry</span></li>
+			</ul>
+		</body>
+	</div>
 </html>
